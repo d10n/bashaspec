@@ -6,6 +6,7 @@
 
 # Runs all the test files
 run_test_files() {
+  code=0
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
     "$cmd" || code=1
