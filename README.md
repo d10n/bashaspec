@@ -17,7 +17,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 * Output is hidden for passing tests and shown for failing tests
 * Verbose and tiny output modes
 * TAP compliant
-* Only 80 lines total, cleanly organized into 4 functions
+* Only 80 lines total, cleanly organized into 5 functions
 
 ## Example usage
 
