@@ -25,7 +25,7 @@ run_test_functions() {
   functions="$(compgen -A function | grep '^test_')"
   fails=()
   run_fn before_all || bail
-  while IFS= read -r -d $'\n' fn; do
+  while IFS= read -r fn; do
     run_fn before_each || continue
     run_fn "$fn" print || true
     run_fn after_each || continue
