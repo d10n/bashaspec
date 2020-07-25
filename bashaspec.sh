@@ -25,19 +25,19 @@ run_test_functions() {
   functions="$(compgen -A function | grep '^test_')"
   echo "1..$(printf '%s\n' "$functions" | wc -l | sed 's/[^0-9]//g')"
   test_index=0; summary_code=0
-  run_fn before_all >&3; bail_if_fail before_all "$?" "$(cat <&4)"
+  run_fn before_all >&3 || ba_status=$?; bail_if_fail before_all ${ba_status:-0} "$(cat <&4)"
   while IFS= read -r -d $'\n' fn; do
     status=; fail=; ((test_index += 1))
     run_fn before_each >&3 || { status=$?; fail="$fn before_each"; }
     [[ -n "$fail" ]] || run_fn "$fn" >&3 || { status=$?; fail="$fn"; } # Skip fn if before_each failed
     run_fn after_each >&3 || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
-    IFS= read -r -d '' -u 4 out
+    IFS= read -r -d '' -u 4 out || true
     [[ -z "$fail" ]] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
     [[ -z "$fail" ]] || echo "# $fail returned $status"
     [[ -z "$fail" && "$verbose" -lt 2 ]] || [[ -z "$out" ]] || printf %s "$out" | sed 's/^/# /'
   done <<<"$functions"
-  run_fn after_all >&3; bail_if_fail after_all "$?" "$(cat <&4)"
+  run_fn after_all >&3 || aa_status=$?; bail_if_fail after_all ${aa_status:-0} "$(cat <&4)"
   return "$summary_code"
 }
 

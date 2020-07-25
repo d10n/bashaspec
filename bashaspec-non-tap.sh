@@ -40,9 +40,9 @@ run_fn() {
   declare -F "$1" >/dev/null || return 0
   [[ "${2:-}" = print ]] && print=1 || print=0
   if ((print && verbose)); then printf '%s ' "$1"; fi
-  "$1" >&3
-  status=$?
-  IFS= read -r -d '' -u 4 out
+  status=0
+  "$1" >&3 || status=$?
+  IFS= read -r -d '' -u 4 out || true
   if [[ $status -ne 0 ]]; then
     if ((print)); then ((verbose)) && echo 'fail' || printf x; fi
     fails+=("$1 returned $status")
