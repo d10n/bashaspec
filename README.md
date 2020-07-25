@@ -57,7 +57,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
     (( now < future )) || return 1
   }
   ```
-* `./myscript-spec.sh` to run just the tests in `myscript-spec.sh` or `./bashaspec.sh` to run all test files in the directory
+* `./myscript-spec.sh` to run just the tests in `myscript-spec.sh` or `./bashaspec.sh` to run all test files in the current directory, recursively
   ```bash
   [user@host ~]$ ./myscript-spec.sh
   Running 4 tests
