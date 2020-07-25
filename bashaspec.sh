@@ -6,12 +6,13 @@
 
 # Runs all the test files
 run_test_files() {
-  code=0
+  tests=0; fails=0
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
-    "$cmd" || code=1
+    "$cmd" || ((fails+=1)); ((tests+=1))
   done < <(find . -executable -type f -name '*-spec.sh' -print0)
-  exit "$code"
+  echo "$((tests-fails)) of $tests test files passed"
+  exit $((fails==0))
 }
 
 # Runs all the test functions
