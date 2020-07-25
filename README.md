@@ -17,7 +17,8 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 * Output is hidden for passing tests and shown for failing tests
 * Verbose and tiny output modes
 * TAP compliant
-* Only 80 lines total, cleanly organized into 5 functions
+* Less than 100 lines total, cleanly organized into a few functions
+* Support for tests written in other non-bash POSIX shells, like dash!
 
 ## Example usage
 
@@ -72,7 +73,8 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 ## Notes
 
 * `bashaspec.sh` produces TAP output when given the `-v` or `--verbose` argument. The TAP handling makes the script slightly longer.
-* `bashaspec-non-tap.sh` is similar, but does not produce TAP output, and has marginally simpler code.
+* `bashaspec-non-posix.sh` only supports tests written in bash, and is kept for reference. You probably want to just use bashaspec.sh.
+* `bashaspec-non-tap.sh` is similar, but does not produce TAP output, and has marginally simpler code. Historical; prefer bashaspec.sh for regular usage.
 * This readme is about as long as the actual library.
 
 ## License
