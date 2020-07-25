@@ -60,6 +60,7 @@ format() {
     !head&&/1\.\.[0-9]/{sub(/^1../,"");printf "Running %s tests\n",$0}{head=1}
     /^ok/{printf ".";system("");total++;oks++;ok=1;next}
     /^not ok/{printf "x";system("");total++;not_oks++;ok=0;fail_body=0;next}
+    /^Bail out!/{fail_lines[fail_line_count++]=$0;not_oks++;ok=0;fail_body=1}
     ok||/^[^#]|^$/{next}
     {sub(/^# /,"")}
     fail_body{sub(/^/,"  ")}
