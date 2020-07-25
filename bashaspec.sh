@@ -58,9 +58,9 @@ run_fn() {
 format() {
   if ((verbose)); then cat; else awk '
     !head&&/1\.\.[0-9]/{sub(/^1../,"");printf "Running %s tests\n",$0}{head=1}
-    /^ok/{printf ".";system("");total++;oks++;next}
-    /^not ok/{printf "x";system("");total++;not_oks++;fail_body=0;next}
-    /^[^#]|^$/{next}
+    /^ok/{printf ".";system("");total++;oks++;ok=1;next}
+    /^not ok/{printf "x";system("");total++;not_oks++;ok=0;fail_body=0;next}
+    ok||/^[^#]|^$/{next}
     {sub(/^# /,"")}
     fail_body{sub(/^/,"  ")}
     {fail_lines[fail_line_count++]=$0;fail_body=1}
