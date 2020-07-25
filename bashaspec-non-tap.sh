@@ -11,7 +11,7 @@ run_test_files() {
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
     "$cmd" || code=1
-  done < <(find . -executable -type f -name '*-spec.sh' -print0)
+  done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
   exit "$code"
 }
 
@@ -19,8 +19,8 @@ run_test_files() {
 # hooks: (before|after)_(all|each)
 run_test_functions() {
   temp="$(mktemp)" # Create a temp file for buffering test output
-  exec {FD_W}>"$temp" # Open a write file descriptor
-  exec {FD_R}<"$temp" # Open a read file descriptor
+  exec 3>"$temp" # Open a write file descriptor
+  exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
   fails=()
@@ -40,9 +40,9 @@ run_fn() {
   declare -F "$1" >/dev/null || return 0
   [[ "${2:-}" = print ]] && print=1 || print=0
   if ((print && verbose)); then printf '%s ' "$1"; fi
-  "$1" >&$FD_W
+  "$1" >&3
   status=$?
-  IFS= read -r -d '' -u $FD_R out
+  IFS= read -r -d '' -u 4 out
   if [[ $status -ne 0 ]]; then
     if ((print)); then ((verbose)) && echo 'fail' || printf x; fi
     fails+=("$1 returned $status")

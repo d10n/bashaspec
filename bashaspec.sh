@@ -10,7 +10,7 @@ run_test_files() {
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
     "$cmd" || ((fails+=1)); ((tests+=1))
-  done < <(find . -executable -type f -name '*-spec.sh' -print0)
+  done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
   echo "$((tests-fails)) of $tests test files passed"
   exit $((fails==0))
 }
@@ -19,25 +19,25 @@ run_test_files() {
 # hooks: (before|after)_(all|each)
 run_test_functions() {
   temp="$(mktemp)" # Create a temp file for buffering test output
-  exec {FD_W}>"$temp" # Open a write file descriptor
-  exec {FD_R}<"$temp" # Open a read file descriptor
+  exec 3>"$temp" # Open a write file descriptor
+  exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
-  echo "1..$(printf '%s\n' "$functions" | wc -l)"
+  echo "1..$(printf '%s\n' "$functions" | wc -l | sed 's/[^0-9]//g')"
   test_index=0; summary_code=0
-  run_fn before_all >&$FD_W; bail_if_fail before_all "$?" "$(cat <&$FD_R)"
+  run_fn before_all >&3; bail_if_fail before_all "$?" "$(cat <&4)"
   while IFS= read -r -d $'\n' fn; do
     status=; fail=; ((test_index += 1))
-    run_fn before_each >&$FD_W || { status=$?; fail="$fn before_each"; }
-    [[ -n "$fail" ]] || run_fn "$fn" >&$FD_W || { status=$?; fail="$fn"; } # Skip fn if before_each failed
-    run_fn after_each >&$FD_W || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
-    IFS= read -r -d '' -u $FD_R out
+    run_fn before_each >&3 || { status=$?; fail="$fn before_each"; }
+    [[ -n "$fail" ]] || run_fn "$fn" >&3 || { status=$?; fail="$fn"; } # Skip fn if before_each failed
+    run_fn after_each >&3 || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
+    IFS= read -r -d '' -u 4 out
     [[ -z "$fail" ]] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
     [[ -z "$fail" ]] || echo "# $fail returned $status"
     [[ -z "$fail" && "$verbose" -lt 2 ]] || [[ -z "$out" ]] || printf %s "$out" | sed 's/^/# /'
   done <<<"$functions"
-  run_fn after_all >&$FD_W; bail_if_fail after_all "$?" "$(cat <&$FD_R)"
+  run_fn after_all >&3; bail_if_fail after_all "$?" "$(cat <&4)"
   return "$summary_code"
 }
 
