@@ -66,7 +66,7 @@ format() {
     {fail_lines[fail_line_count++]=$0;fail_body=1}
     END{
       printf "\n%d of %d tests passed\n",oks,total
-      if(fail_line_count){print "Failures:"}
+      if(fail_line_count){printf "%d failures:\n",not_oks}
       for(i=0;i<fail_line_count;i++){printf "  %s\n",fail_lines[i]}
       if(not_oks){exit 1}
     }'
