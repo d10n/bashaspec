@@ -10,7 +10,7 @@ run_test_files() {
   code=0
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
-    "$cmd" || code=1
+    if ((verbose)); then "$cmd" -v; else "$cmd"; fi || code=1
   done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
   exit "$code"
 }

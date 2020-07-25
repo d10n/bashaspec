@@ -9,7 +9,7 @@ run_test_files() {
   tests=0; fails=0
   while IFS= read -r -d '' cmd; do
     printf '%s\n' "$cmd"
-    "$cmd" || ((fails+=1)); ((tests+=1))
+    if ((verbose)); then "$cmd" -v; else "$cmd"; fi || ((fails+=1)); ((tests+=1))
   done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
   echo "$((tests-fails)) of $tests test files passed"
   exit $((fails>0))
