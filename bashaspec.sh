@@ -19,25 +19,25 @@ run_test_files() {
 # hooks: (before|after)_(all|each)
 run_test_functions() {
   temp="$(mktemp)" # Create a temp file for buffering test output
-  exec 3>"$temp" # Open a write file descriptor
-  exec 4<"$temp" # Open a read file descriptor
+  test_w=3; exec 3>"$temp" # Open a write file descriptor
+  test_r=4; exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
   echo "1..$(printf '%s\n' "$functions" | wc -l | sed 's/[^0-9]//g')"
   test_index=0; summary_code=0
-  run_fn before_all >&3 || ba_status=$?; bail_if_fail before_all ${ba_status:-0} "$(cat <&4)"
+  run_fn before_all >&$test_w || ba_status=$?; bail_if_fail before_all ${ba_status:-0} "$(cat <&$test_r)"
   while IFS= read -r fn; do
     status=; fail=; ((test_index += 1))
-    run_fn before_each >&3 || { status=$?; fail="$fn before_each"; }
-    [[ -n "$fail" ]] || run_fn "$fn" >&3 || { status=$?; fail="$fn"; } # Skip fn if before_each failed
-    run_fn after_each >&3 || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
-    IFS= read -r -d '' -u 4 out || true
+    run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
+    [[ -n "$fail" ]] || run_fn "$fn" >&$test_w || { status=$?; fail="$fn"; } # Skip fn if before_each failed
+    run_fn after_each >&$test_w || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
+    IFS= read -r -d '' -u $test_r out || true
     [[ -z "$fail" ]] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
     [[ -z "$fail" ]] || echo "# $fail returned $status"
     [[ -z "$fail" && "$verbose" -lt 2 ]] || [[ -z "$out" ]] || printf %s "$out" | sed 's/^/# /'
   done <<<"$functions"
-  run_fn after_all >&3 || aa_status=$?; bail_if_fail after_all ${aa_status:-0} "$(cat <&4)"
+  run_fn after_all >&$test_w || aa_status=$?; bail_if_fail after_all ${aa_status:-0} "$(cat <&$test_r)"
   return "$summary_code"
 }
 

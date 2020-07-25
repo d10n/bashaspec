@@ -19,8 +19,8 @@ run_test_files() {
 # hooks: (before|after)_(all|each)
 run_test_functions() {
   temp="$(mktemp)" # Create a temp file for buffering test output
-  exec 3>"$temp" # Open a write file descriptor
-  exec 4<"$temp" # Open a read file descriptor
+  test_w=3; exec 3>"$temp" # Open a write file descriptor
+  test_r=4; exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
   fails=()
@@ -41,8 +41,8 @@ run_fn() {
   [[ "${2:-}" = print ]] && print=1 || print=0
   if ((print && verbose)); then printf '%s ' "$1"; fi
   status=0
-  "$1" >&3 || status=$?
-  IFS= read -r -d '' -u 4 out || true
+  "$1" >&$test_w || status=$?
+  IFS= read -r -d '' -u $test_r out || true
   if [[ $status -ne 0 ]]; then
     if ((print)); then ((verbose)) && echo 'fail' || printf x; fi
     fails+=("$1 returned $status")
