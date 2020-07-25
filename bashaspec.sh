@@ -27,11 +27,9 @@ run_test_functions() {
   run_fn before_all >&$FD_W; bail_if_fail before_all "$?" "$(cat <&$FD_R)"
   while IFS= read -r -d $'\n' fn; do
     status=; fail=; ((test_index += 1))
-    { # Capture hook output along with test output
-    run_fn before_each || { status=$?; fail="$fn before_each"; }
-    [[ -n "$fail" ]] || run_fn "$fn" || { status=$?; fail="$fn"; } # Skip fn if before_each failed
-    run_fn after_each || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
-    } >&$FD_W
+    run_fn before_each >&$FD_W || { status=$?; fail="$fn before_each"; }
+    [[ -n "$fail" ]] || run_fn "$fn" >&$FD_W || { status=$?; fail="$fn"; } # Skip fn if before_each failed
+    run_fn after_each >&$FD_W || { _s=$?; [[ -n "$fail" ]] || status="$_s"; fail="$fn after_each"; }
     IFS= read -r -d '' -u $FD_R out
     [[ -z "$fail" ]] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
