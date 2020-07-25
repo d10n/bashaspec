@@ -1,5 +1,6 @@
 #!/bin/bash
 # bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
+# Non-TAP version with simpler but less featureful implementation.
 
 # Verbose? true: line per test; false: dot per test; default false
 [[ ${1:-} = -v || ${1:-} = --verbose ]] && verbose=1 || verbose=0
