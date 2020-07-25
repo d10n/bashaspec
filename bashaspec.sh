@@ -58,14 +58,14 @@ run_fn() {
 format() {
   if ((verbose)); then cat; else awk '
     !head&&/1\.\.[0-9]/{sub(/^1../,"");printf "Running %s tests\n",$0}{head=1}
-    /^ok/{printf ".";system("");oks++;next}
-    /^not ok/{printf "x";system("");not_oks++;fail_body=0;next}
+    /^ok/{printf ".";system("");total++;oks++;next}
+    /^not ok/{printf "x";system("");total++;not_oks++;fail_body=0;next}
     /^[^#]|^$/{next}
     {sub(/^# /,"")}
     fail_body{sub(/^/,"  ")}
     {fail_lines[fail_line_count++]=$0;fail_body=1}
     END{
-      printf "\n%d of %d tests passed\n", oks, oks + not_oks
+      printf "\n%d of %d tests passed\n",oks,total
       if(fail_line_count){print "Failures:"}
       for(i=0;i<fail_line_count;i++){printf "  %s\n",fail_lines[i]}
       if(not_oks){exit 1}
