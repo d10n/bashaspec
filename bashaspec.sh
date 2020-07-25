@@ -2,7 +2,7 @@
 # bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 
 # Verbose? true: TAP 12 output; false: dot per test; default false
-[[ ${VERBOSE:-false} = true ]] && verbose=1 || verbose=0
+[[ ${1:-} = -v || ${1:-} = --verbose ]] && verbose=1 || verbose=0
 
 # Runs all the test files
 run_test_files() {

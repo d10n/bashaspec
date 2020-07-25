@@ -71,7 +71,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 
 ## Notes
 
-* `bashaspec.sh` produces TAP output when the VERBOSE environment variable is set to true. The TAP handling makes the script slightly longer.
+* `bashaspec.sh` produces TAP output when given the `-v` or `--verbose` argument. The TAP handling makes the script slightly longer.
 * `bashaspec-non-tap.sh` is similar, but does not produce TAP output, and has marginally simpler and code.
 * This readme is about as long as the actual library.
 
