@@ -17,10 +17,10 @@ run_test_files() {
 # Runs all the test functions
 # hooks: (before|after)_(all|each)
 run_test_functions() {
-  temp="$(mktemp)"
-  exec {FD_W}>"$temp"
-  exec {FD_R}<"$temp"
-  rm -- "$temp"
+  temp="$(mktemp)" # Create a temp file for buffering test output
+  exec {FD_W}>"$temp" # Open a write file descriptor
+  exec {FD_R}<"$temp" # Open a read file descriptor
+  rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
   echo "1..$(printf '%s\n' "$functions" | wc -l)"
   test_index=0
