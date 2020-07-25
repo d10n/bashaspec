@@ -86,6 +86,5 @@ sourced=0; [ -n "${BASH_VERSION:-}" ] && ! (return 0 2>/dev/null) || sourced=1
 if [ "$sourced" -eq 0 ]; then
   run_test_files
 else
-  functions="$(get_functions "$0")"; # Value used in multiple functions; set here instead of passing around
-  trap 'run_test_functions | format; exit $?' EXIT
+  trap 'functions="$(get_functions "${_bashaspec_test_file:-$0}")"; run_test_functions | format; exit $?' EXIT
 fi

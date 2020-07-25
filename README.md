@@ -72,6 +72,16 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 
 ## Notes
 
+* If your test script changes directory (`cd`) outside of a test function, set the `_bashaspec_test_file` variable to the path of the current test file.  
+  For example:
+  ```bash
+  #!/bin/bash
+  cd "$(dirname "$0")" || exit 1
+  _bashaspec_test_file="$(pwd)/$(basename "$0")"
+  . ../bashaspec.sh
+  test_foo() { : ... ; }
+  ```
+  Alternatively, use the non-posix bashaspec or just don't call `cd` in your test scripts outside of test functions
 * `bashaspec.sh` produces TAP output when given the `-v` or `--verbose` argument. The TAP handling makes the script slightly longer.
 * `bashaspec-non-posix.sh` only supports tests written in bash, and is kept for reference. You probably want to just use bashaspec.sh.
 * `bashaspec-non-tap.sh` is similar, but does not produce TAP output, and has marginally simpler code. Historical; prefer bashaspec.sh for regular usage.
