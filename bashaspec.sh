@@ -36,7 +36,7 @@ run_test_functions() {
     [[ -z "$fail" ]] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
     [[ -z "$fail" ]] || echo "# $fail returned $status"
-    [[ -z "$fail" ]] || [[ -z "$out" ]] || printf %s "$out" | sed 's/^/# /'
+    [[ -z "$fail" && "$verbose" -lt 2 ]] || [[ -z "$out" ]] || printf %s "$out" | sed 's/^/# /'
   done <<<"$functions"
   run_fn after_all >&$FD_W; bail_if_fail after_all "$?" "$(cat <&$FD_R)"
   return "$summary_code"
