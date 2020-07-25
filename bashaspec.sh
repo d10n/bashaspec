@@ -12,7 +12,7 @@ run_test_files() {
     "$cmd" || ((fails+=1)); ((tests+=1))
   done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
   echo "$((tests-fails)) of $tests test files passed"
-  ((fails==0)); exit
+  exit $((fails>0))
 }
 
 # Runs all the test functions
