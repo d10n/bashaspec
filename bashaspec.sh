@@ -20,7 +20,7 @@ run_test_functions() {
   temp="$(mktemp)"
   exec {FD_W}>"$temp"
   exec {FD_R}<"$temp"
-  rm "$temp"
+  rm -- "$temp"
   functions="$(compgen -A function | grep '^test_')"
   echo "1..$(printf '%s\n' "$functions" | wc -l)"
   test_index=0
