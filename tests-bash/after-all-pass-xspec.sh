@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-_bashaspec_test_file="$(pwd)/$(basename "$0")"
 . ../bashaspec.sh
 
 before_all() {

@@ -43,7 +43,10 @@ FN_EOF
   return "$summary_code"
 }
 
-get_functions() { awk <"$1" '
+get_functions() {
+  { [ -n "${BASH_VERSION:-}" ] && compgen -A function; } ||
+  { [ -n "${ZSH_VERSION:-}" ] && printf '%s\n' "${(k)functions[@]}"; } ||
+  awk <"$1" '
   /^[ \t]*(test_[a-zA-Z0-9_-]*|(before|after)_(all|each))[ \t]*\([ \t]*\)/{
     sub(/^[ \t]*/,"");sub(/[ \t]*\(.*/,"");print;next}
   /^[ \t]*function[ \t]*(test_[a-zA-Z0-9_-]*|(before|after)_(all|each))[ \t]*($|[({])/{
