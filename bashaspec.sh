@@ -23,7 +23,7 @@ run_test_functions() {
   test_w=3; exec 3>"$temp" # Open a write file descriptor
   test_r=4; exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
-  echo "1..$(printf '%s\n' "$functions" | grep -c '^test_')"
+  echo "1..$(printf '%s\n' "$fns" | grep -c '^test_')"
   test_index=0; summary_code=0
   run_fn before_all >&$test_w; ba_status=$?; bail_if_fail before_all $ba_status "$(cat <&$test_r)"
   while IFS= read -r fn; do
@@ -37,7 +37,7 @@ run_test_functions() {
     [ -z "$fail" ] || echo "# $fail returned $status"
     { [ -z "$fail" ] && [ "$verbose" -lt 2 ]; } || [ -z "$out" ] || printf '%s\n' "$out" | sed 's/^/# /'
   done <<FN_EOF
-$(printf %s "$functions" | grep '^test')
+$(printf %s "$fns" | grep '^test')
 FN_EOF
   run_fn after_all >&$test_w; aa_status=$?; bail_if_fail after_all $aa_status "$(cat <&$test_r)"
   return "$summary_code"
@@ -51,7 +51,7 @@ get_functions() { awk <"$1" '
 }
 
 # Run a function if it exists.
-run_fn() { ! printf %s "$functions" | grep -qFx "$1" || "$1"; }
+run_fn() { ! printf %s "$fns" | grep -qFx "$1" || "$1"; }
 
 bail_if_fail() { # 1=name 2=code 3=output
   [ "$2" -eq 0 ] || {
@@ -86,5 +86,5 @@ sourced=0; [ -n "${BASH_VERSION:-}" ] && ! (return 0 2>/dev/null) || sourced=1
 if [ "$sourced" -eq 0 ]; then
   run_test_files
 else
-  trap 'functions="$(get_functions "${_bashaspec_test_file:-$0}")"; run_test_functions | format; exit $?' EXIT
+  trap 'fns="$(get_functions "${_bashaspec_test_file:-$0}")"; run_test_functions | format; exit $?' EXIT
 fi
