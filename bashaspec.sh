@@ -25,7 +25,7 @@ run_test_functions() {
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   echo "1..$(printf '%s\n' "$fns" | grep -c '^test_')"
   test_index=0; summary_code=0
-  run_fn before_all >&$test_w; ba_status=$?; bail_if_fail before_all $ba_status "$(cat <&$test_r)"
+  run_fn before_all >&$test_w; bail_if_fail before_all $? "$(cat <&$test_r)"
   while IFS= read -r fn; do
     status=; fail=; test_index=$((test_index+1))
     run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
@@ -39,7 +39,7 @@ run_test_functions() {
   done <<FN_EOF
 $(printf %s "$fns" | grep '^test_')
 FN_EOF
-  run_fn after_all >&$test_w; aa_status=$?; bail_if_fail after_all $aa_status "$(cat <&$test_r)"
+  run_fn after_all >&$test_w; bail_if_fail after_all $? "$(cat <&$test_r)"
   return "$summary_code"
 }
 
