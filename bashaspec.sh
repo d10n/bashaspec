@@ -7,12 +7,13 @@
 # Runs all the test files
 run_test_files() {
   while IFS= read -r cmd; do
+    [ -n "$cmd" ] || continue
     printf '%s\n' "$cmd"
     if [ $verbose -eq 1 ]; then "$cmd" -v; else "$cmd"; fi || fails=$((fails+1)); tests=$((tests+1))
   done <<EOF
 $(find . -perm -a=x -type f -name '*-spec.sh')
 EOF
-  echo "$((tests-fails)) of $tests test files passed"
+  echo "$((tests-fails)) of $((tests)) test files passed"
   exit $((fails>0))
 }
 
