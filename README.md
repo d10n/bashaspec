@@ -4,8 +4,8 @@ Short, self-contained, and actually useful bash unit testing library.
 
 There are tons of alternatives, but I was not satisfied with the ones I looked at. They tend to be one of:
 * huge multi-file frameworks like bats-core. Maybe useful, but requires installation and not simple to copy around.
-* dumb wrappers around `test` for natural language assertions. Too minimal to be useful.
-* long single-file libraries. Better, but usually too long and not feature dense enough to be worth using.
+* dumb wrappers around the `test` command for natural language assertions. Too minimal to be useful.
+* long single-file libraries. Better, but usually too long and not feature dense enough for my taste.
 
 So I wrote my own. This is a middle ground for some convenience while remaining small enough to read at a glance and to vendor the whole file as needed.
 
