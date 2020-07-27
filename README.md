@@ -1,6 +1,6 @@
 # bashaspec
 
-Short, self-contained, and actually useful bash unit testing library.
+Short, self-contained, and actually useful unit testing library for bash, zsh, ksh, dash, and sh.
 
 There are tons of alternatives, but I was not satisfied with the ones I looked at. They tend to be one of:
 * huge multi-file frameworks like bats-core. Maybe useful, but requires installation and not simple to copy around.
