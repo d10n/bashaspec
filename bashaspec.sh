@@ -37,7 +37,7 @@ run_test_functions() {
     [ -z "$fail" ] || echo "# $fail returned $status"
     { [ -z "$fail" ] && [ "$verbose" -lt 2 ]; } || [ -z "$out" ] || printf '%s\n' "$out" | sed 's/^/# /'
   done <<FN_EOF
-$(printf %s "$fns" | grep '^test')
+$(printf %s "$fns" | grep '^test_')
 FN_EOF
   run_fn after_all >&$test_w; aa_status=$?; bail_if_fail after_all $aa_status "$(cat <&$test_r)"
   return "$summary_code"
