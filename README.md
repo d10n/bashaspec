@@ -13,7 +13,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 
 * Easy usage: just source the library, define `test_*` functions, and execute your file
 * Hooks: before_all, after_all, before_each, after_each
-* Assertions: no need to reinvent the wheel; just use `test`
+* Assertions: no need to reinvent the wheel; just use the `test` or `[[ ]]` commands
 * Output is hidden for passing tests and shown for failing tests
 * Verbose and tiny output modes
 * TAP compliant
