@@ -1,0 +1,80 @@
+name: test
+
+on: [push, pull_request]
+jobs:
+  bash-3_2:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show environment information
+        run: |
+          uname -a
+          /bin/bash --version
+      - name: Test full suite
+        run: |
+          cd tests-bash
+          ../bashaspec.sh
+      - name: Test individual spec files
+        run: |
+          cd tests-bash
+          for file in *-spec.sh; do "./$file"; done
+  bash-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show environment information
+        run: |
+          uname -a
+          /bin/bash --version
+      - name: Test full suite
+        run: |
+          cd tests-bash
+          ../bashaspec.sh
+      - name: Test individual spec files
+        run: |
+          cd tests-bash
+          for file in *-spec.sh; do "./$file"; done
+  dash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show environment information
+        run: |
+          uname -a
+          dpkg -s dash
+      - name: Test full suite
+        run: |
+          cd tests-dash
+          ../bashaspec.sh
+      - name: Test individual spec files
+        run: |
+          cd tests-dash
+          for file in *-spec.sh; do "./$file"; done
+  sh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install heirloom bourne shell
+        run: |
+          set -x
+          wget "https://sourceforge.net/projects/heirloom/files/heirloom-sh/050706/heirloom-sh-050706.tar.bz2"
+          tar -xf heirloom-sh-050706.tar.bz2
+          cd heirloom-sh-050706
+          sed -i 's,^SV3BIN=.*,SV3BIN=/usr/heirloom/bin,;s,^MANDIR=.*,MANDIR=/usr/heirloom/share/man,;s,^UCBINST=.*,UCBINST=install,' makefile
+          make
+          sudo make install
+      - name: Show environment information
+        run: |
+          uname -a
+      - name: Let bashaspec suite runner discover heirloom sh tests
+        run: |
+          cd tests-heirloom-sh
+          for file in *-spec.heirloom.sh; do mv "$file" "${file/%.heirloom.sh/.sh}"; done
+      - name: Test full suite
+        run: |
+          cd tests-heirloom-sh
+          ../alternate-old-versions/bashaspec-ancient.sh
+      - name: Test individual spec files
+        run: |
+          cd tests-heirloom-sh
+          for file in *-spec.sh; do "./$file"; done
