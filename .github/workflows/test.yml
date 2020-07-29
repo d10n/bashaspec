@@ -10,8 +10,10 @@ jobs:
         run: uname -a; /bin/bash --version
       - name: Test full suite
         run: cd tests-bash; ../bashaspec.sh
-      - name: Test individual spec files
+      - name: Test individual spec files from the same directory
         run: cd tests-bash; for file in *-spec.sh; do "./$file"; done
+      - name: Test individual spec files from the parent directory
+        run: for file in tests-bash/*-spec.sh; do "./$file"; done
   bash-latest:
     runs-on: ubuntu-latest
     steps:
@@ -20,8 +22,10 @@ jobs:
         run: uname -a; /bin/bash --version
       - name: Test full suite
         run: cd tests-bash; ../bashaspec.sh
-      - name: Test individual spec files
+      - name: Test individual spec files from the same directory
         run: cd tests-bash; for file in *-spec.sh; do "./$file"; done
+      - name: Test individual spec files from the parent directory
+        run: for file in tests-bash/*-spec.sh; do "./$file"; done
   dash:
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +34,10 @@ jobs:
         run: uname -a; dpkg -s dash
       - name: Test full suite
         run: cd tests-dash; ../bashaspec.sh
-      - name: Test individual spec files
+      - name: Test individual spec files from the same directory
         run: cd tests-dash; for file in *-spec.sh; do "./$file"; done
+      - name: Test individual spec files from the parent directory
+        run: for file in tests-dash/*-spec.sh; do "./$file"; done
   sh:
     runs-on: ubuntu-latest
     steps:
@@ -51,5 +57,7 @@ jobs:
         run: cd tests-heirloom-sh; for file in *-spec.heirloom.sh; do mv "$file" "${file/%.heirloom.sh/.sh}"; done
       - name: Test full suite
         run: cd tests-heirloom-sh; ../alternate-old-versions/bashaspec-ancient.sh
-      - name: Test individual spec files
+      - name: Test individual spec files from the same directory
         run: cd tests-heirloom-sh; for file in *-spec.sh; do "./$file"; done
+      - name: Test individual spec files from the parent directory
+        run: for file in tests-heirloom-sh/*-spec.sh; do "./$file"; done
