@@ -7,49 +7,31 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Show environment information
-        run: |
-          uname -a
-          /bin/bash --version
+        run: uname -a; /bin/bash --version
       - name: Test full suite
-        run: |
-          cd tests-bash
-          ../bashaspec.sh
+        run: cd tests-bash; ../bashaspec.sh
       - name: Test individual spec files
-        run: |
-          cd tests-bash
-          for file in *-spec.sh; do "./$file"; done
+        run: cd tests-bash; for file in *-spec.sh; do "./$file"; done
   bash-latest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Show environment information
-        run: |
-          uname -a
-          /bin/bash --version
+        run: uname -a; /bin/bash --version
       - name: Test full suite
-        run: |
-          cd tests-bash
-          ../bashaspec.sh
+        run: cd tests-bash; ../bashaspec.sh
       - name: Test individual spec files
-        run: |
-          cd tests-bash
-          for file in *-spec.sh; do "./$file"; done
+        run: cd tests-bash; for file in *-spec.sh; do "./$file"; done
   dash:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Show environment information
-        run: |
-          uname -a
-          dpkg -s dash
+        run: uname -a; dpkg -s dash
       - name: Test full suite
-        run: |
-          cd tests-dash
-          ../bashaspec.sh
+        run: cd tests-dash; ../bashaspec.sh
       - name: Test individual spec files
-        run: |
-          cd tests-dash
-          for file in *-spec.sh; do "./$file"; done
+        run: cd tests-dash; for file in *-spec.sh; do "./$file"; done
   sh:
     runs-on: ubuntu-latest
     steps:
@@ -64,17 +46,10 @@ jobs:
           make
           sudo make install
       - name: Show environment information
-        run: |
-          uname -a
+        run: uname -a
       - name: Let bashaspec suite runner discover heirloom sh tests
-        run: |
-          cd tests-heirloom-sh
-          for file in *-spec.heirloom.sh; do mv "$file" "${file/%.heirloom.sh/.sh}"; done
+        run: cd tests-heirloom-sh; for file in *-spec.heirloom.sh; do mv "$file" "${file/%.heirloom.sh/.sh}"; done
       - name: Test full suite
-        run: |
-          cd tests-heirloom-sh
-          ../alternate-old-versions/bashaspec-ancient.sh
+        run: cd tests-heirloom-sh; ../alternate-old-versions/bashaspec-ancient.sh
       - name: Test individual spec files
-        run: |
-          cd tests-heirloom-sh
-          for file in *-spec.sh; do "./$file"; done
+        run: cd tests-heirloom-sh; for file in *-spec.sh; do "./$file"; done
