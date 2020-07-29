@@ -9,8 +9,8 @@ after_all_run=0
 
 fake_dirs_count=1
 dirs() { for i in seq 0 $fake_dirs_count; do echo $i; done; }
-pushd() { fake_dirs_count=$((fake_dirs_count+1)); }
-popd() { fake_dirs_count=$((fake_dirs_count-1)); }
+pushd() { fake_dirs_count=`expr "$fake_dirs_count" + 1`; }
+popd() { fake_dirs_count=`expr "$fake_dirs_count" - 1`; }
 
 before_all() {
   before_all_run=1
@@ -32,9 +32,9 @@ after_each() {
 test_1() {
   [ $before_all_run -eq 1 ] || return 1
   [ $before_each_run -eq 1 ] || return 2
-  ! [ $after_each_run -eq 1 ] || return 4
-  ! [ $after_all_run -eq 1 ] || return 3
-  dir_count="$(dirs -v | wc -l)"
+  [ $after_each_run -eq 1 ] && return 4
+  [ $after_all_run -eq 1 ] && return 3
+  dir_count="`dirs -v | wc -l`"
   echo "dir count $dir_count should be 3"
   [ "$dir_count" -eq 3 ] || return 5
 }
@@ -43,9 +43,9 @@ test_2() {
   [ $before_all_run -eq 1 ] || return 1
   [ $before_each_run -eq 1 ] || return 2
   [ $after_each_run -eq 1 ] || return 4 # after_each ran from previous test
-  ! [ $after_all_run -eq 1 ] || return 3
+  [ $after_all_run -eq 1 ] && return 3
   # note: test order is not guaranteed; test_2 just runs after test_1 for me
-  dir_count="$(dirs -v | wc -l)"
+  dir_count="`dirs -v | wc -l`"
   echo "dir count $dir_count should be 3"
   [ "$dir_count" -eq 3 ] || return 5
 }
