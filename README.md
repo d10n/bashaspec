@@ -16,7 +16,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 * Assertions: no need to reinvent the wheel; just use the `test` or `[[ ]]` commands
 * Output is hidden for passing tests and shown for failing tests
 * Verbose and tiny output modes
-* TAP compliant
+* Test Anything Protocol (TAP) compliant
 * Less than 100 lines total, cleanly organized into a few functions
 * Support for tests written in other non-bash POSIX shells, like dash!
 
