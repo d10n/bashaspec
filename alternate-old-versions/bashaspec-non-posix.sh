@@ -76,5 +76,5 @@ format() {
 if [[ "${BASH_SOURCE[0]}" = "$0" ]]; then
   run_test_files
 else
-  trap 'run_test_functions | format; exit $?' EXIT
+  run_test_functions | format
 fi

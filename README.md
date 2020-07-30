@@ -11,7 +11,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 
 ## Features
 
-* Easy usage: just source the library, define `test_*` functions, and execute your file
+* Easy usage: just source the library after defining `test_*` functions, and execute your file
 * Hooks: before_all, after_all, before_each, after_each
 * Assertions: no need to reinvent the wheel; just use the `test` or `[[ ]]` commands
 * Output is hidden for passing tests and shown for failing tests
@@ -26,7 +26,6 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 * `myscript-spec.sh`
   ```bash
   #!/bin/bash
-  . ./bashaspec.sh
   test_concat() {
     a='1'
     b='2'
@@ -57,6 +56,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
     future=$((now+1))
     (( now < future )) || return 1
   }
+  . ./bashaspec.sh
   ```
 * `./myscript-spec.sh` to run just the tests in `myscript-spec.sh` or `./bashaspec.sh` to run all test files in the current directory, recursively
   ```bash
@@ -79,8 +79,8 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
   #!/bin/dash
   cd "$(dirname "$0")" || exit 1
   _bashaspec_test_file="$(pwd)/$(basename "$0")"
-  . ../bashaspec.sh
   test_foo() { : ... ; }
+  . ../bashaspec.sh
   ```
 * `bashaspec.sh` produces TAP output when given the `-v` or `--verbose` argument. The TAP handling makes the script slightly longer than the original non-tap version, but the main bashaspec.sh version is better anyway, so you should use this.
 * `bashaspec-non-posix.sh` only supports tests written in bash, and is kept for reference. You probably want to just use bashaspec.sh.

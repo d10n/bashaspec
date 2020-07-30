@@ -92,5 +92,6 @@ sourced=0; [ -n "${BASH_VERSION:-}" ] && eval '! (return 0 2>/dev/null)' || sour
 if [ "$sourced" -eq 0 ]; then
   run_test_files
 else
-  trap 'fns="`get_functions "${_bashaspec_test_file:-$0}"`"; run_test_functions | format; exit $?' EXIT
+  fns="`get_functions "${_bashaspec_test_file:-$0}"`"
+  run_test_functions | format
 fi
