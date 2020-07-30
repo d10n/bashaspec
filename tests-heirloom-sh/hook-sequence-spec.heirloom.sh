@@ -1,7 +1,7 @@
 #!/usr/heirloom/bin/sh
 cd "`dirname "$0"`" || exit 1
 _bashaspec_test_file="`pwd`/`basename "$0"`"
-. ../alternate-old-versions/bashaspec-ancient.sh
+
 test_before_all_fail_spec() {
   out="`./before-all-fail-xspec.sh`"
   [ $? -eq 1 ] || return 1
@@ -181,3 +181,5 @@ EOF
   printf '%s' "$expected" | tr -d '\n'
   [ "$out" = "$expected" ] || return 2
 }
+
+. ../alternate-old-versions/bashaspec-ancient.sh

@@ -1,7 +1,6 @@
 #!/bin/dash
 cd "$(dirname "$0")" || exit 1
 _bashaspec_test_file="$(pwd)/$(basename "$0")"
-. ../bashaspec.sh
 
 test_before_all_fail_spec() {
   out="$(./before-all-fail-xspec.sh)"
@@ -182,3 +181,5 @@ EOF
   printf '%s' "$expected" | tr -d '\n'
   [ "$out" = "$expected" ] || return 2
 }
+
+. ../bashaspec.sh

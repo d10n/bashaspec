@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-. ../bashaspec.sh
 
 test_before_all_fail_spec() {
   out="$(./before-all-fail-xspec.sh)"$'\n'
@@ -170,3 +169,5 @@ EOF
   printf '%q\n' "$expected"
   [[ "$out" = "$expected" ]] || return 2
 }
+
+. ../bashaspec.sh

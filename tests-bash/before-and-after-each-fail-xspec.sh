@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-. ../bashaspec.sh
 
 before_all() {
   echo 'inside before_all'
@@ -36,3 +35,5 @@ test_3() {
   echo 'inside test_3'
   true
 }
+
+. ../bashaspec.sh

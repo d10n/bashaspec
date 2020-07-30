@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-. ../bashaspec.sh
 
 before_all_run=0
 before_each_run=0
@@ -44,3 +43,5 @@ test_2() {
   echo "dir count $dir_count should be 3"
   [[ "$dir_count" -eq 3 ]] || return 5
 }
+
+. ../bashaspec.sh
