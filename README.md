@@ -72,6 +72,8 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 
 ## Notes
 
+* `set -e` does not affect test functions, so put `|| return` after any assertion commands.
+  * This is unavoidable, because the framework needs to prevent `set -e` from exiting the script when a test fails, and the framework needs to capture failed tests, so test functions are put into an OR list (aka `||` list). `set -e` only affects commands in an OR list after the last `||`, and those are supplied by the framework.
 * There is not a standard for listing defined functions. bashaspec has special cases for bash and zsh, but in other shells, bashaspec will scan the test file for test functions.  
   When using other shells, if your test script changes directory (`cd`) outside of a test function, bashaspec needs to be told the path of the test file by setting the `_bashaspec_test_file` variable.  
   For example:
