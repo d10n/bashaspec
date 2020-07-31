@@ -9,6 +9,7 @@
 run_test_files() {
   tests=0; fails=0
   while IFS= read -r -d '' cmd; do
+    [[ -n "$cmd" ]] || continue
     printf '%s\n' "$cmd"
     if ((verbose)); then "$cmd" -v; else "$cmd"; fi || ((fails+=1)); ((tests+=1))
   done < <(find . -perm -a=x -type f -name '*-spec.sh' -print0)
@@ -28,6 +29,7 @@ run_test_functions() {
   test_index=0; summary_code=0; hook_code=0
   run_fn before_all >&$test_w || hook_code=$?; bail_if_fail before_all $hook_code "$(cat <&$test_r)"
   while IFS= read -r fn; do
+    [[ -n "$fn" ]] || continue
     status=; fail=; ((test_index += 1))
     run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
     [[ -n "$fail" ]] || run_fn "$fn" >&$test_w || { status=$?; fail="$fn"; } # Skip fn if before_each failed
