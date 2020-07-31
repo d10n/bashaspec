@@ -31,30 +31,30 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
     b='2'
     echo 'concatenating...'
     c="$a$b"
-    [[ "$c" = "12" ]] || return 1
-    [[ "$c" != "ab" ]] || return 2
-    [[ "$c" -ne 3 ]] || return 3
+    [[ "$c" = "12" ]] || return
+    [[ "$c" != "ab" ]] || return
+    [[ "$c" -ne 3 ]] || return
   }
   test_add() {
     a='1'
     b='2'
     echo 'adding...'
     c=$(( a+b ))
-    [[ "$c" -eq 3 ]] || return 1
-    [[ "$c" != "12" ]] || return 2
-    [[ "$c" != "ab" ]] || return 2
+    [[ "$c" -eq 3 ]] || return
+    [[ "$c" != "12" ]] || return
+    [[ "$c" != "ab" ]] || return
   }
   test_an_error() {
     echo 'returning nonzero is an error'
     echo 'use return codes to identify failed assertions'
-    [[ 'a' = 'a' ]] || return 1
-    [[ 'a' = 'b' ]] || return 2 # causes return 2!
-    [[ 'a' = 'c' ]] && return 3
+    [[ 'a' = 'a' ]] || return
+    [[ 'a' = 'b' ]] || return # test failure!
+    [[ 'a' = 'c' ]] && return
   }
   test_a_success() {
     now="$(date +%s)"
     future=$((now+1))
-    (( now < future )) || return 1
+    (( now < future )) || return
   }
   . ./bashaspec.sh
   ```
@@ -65,7 +65,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
   ..x.
   3 of 4 tests passed
   Failures:
-    test_an_error returned 2
+    test_an_error returned 1
       returning nonzero is an error
       use return codes to identify failed assertions
   ```
