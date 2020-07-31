@@ -25,8 +25,8 @@ run_test_functions() {
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   functions="$(compgen -A function | grep '^test_')"
   echo "1..$(printf '%s\n' "$functions" | wc -l | sed 's/[^0-9]//g')"
-  test_index=0; summary_code=0
-  run_fn before_all >&$test_w; bail_if_fail before_all $? "$(cat <&$test_r)"
+  test_index=0; summary_code=0; hook_code=0
+  run_fn before_all >&$test_w || hook_code=$?; bail_if_fail before_all $hook_code "$(cat <&$test_r)"
   while IFS= read -r fn; do
     status=; fail=; ((test_index += 1))
     run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
@@ -38,7 +38,7 @@ run_test_functions() {
     [[ -z "$fail" ]] || echo "# $fail returned $status"
     [[ -z "$fail" && "$verbose" -lt 2 ]] || [[ -z "$out" ]] || printf '%s\n' "$out" | sed 's/^/# /'
   done <<<"$functions"
-  run_fn after_all >&$test_w; bail_if_fail after_all $? "$(cat <&$test_r)"
+  run_fn after_all >&$test_w || hook_code=$?; bail_if_fail after_all $hook_code "$(cat <&$test_r)"
   return "$summary_code"
 }
 
@@ -49,7 +49,7 @@ bail_if_fail() { # 1=name 2=code 3=output
   [[ "$2" -eq 0 ]] || {
     echo "Bail out! $1 returned $2"
     [[ -z "$3" ]] || printf '%s\n' "$3" | sed 's/^/# /'
-    exit "$2"
+    exit 1
   }
 }
 

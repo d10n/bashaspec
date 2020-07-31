@@ -27,8 +27,8 @@ run_test_functions() {
   test_r=4; exec 4<"$temp" # Open a read file descriptor
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   echo "1..`printf '%s\n' "$fns" | grep -c '^test_'`"
-  test_index=0; summary_code=0
-  run_fn before_all >&$test_w; bail_if_fail before_all $? "`cat <&$test_r`"
+  test_index=0; summary_code=0; hook_code=0
+  run_fn before_all >&$test_w || hook_code=$?; bail_if_fail before_all $hook_code "`cat <&$test_r`"
   while IFS= read -r fn; do
     status=; fail=; test_index="`expr ${test_index:-0} + 1`"
     run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
@@ -42,7 +42,7 @@ run_test_functions() {
   done <<FN_EOF
 `printf %s "$fns" | grep '^test_'`
 FN_EOF
-  run_fn after_all >&$test_w; bail_if_fail after_all $? "`cat <&$test_r`"
+  run_fn after_all >&$test_w || hook_code=$?; bail_if_fail after_all "$hook_code" "`cat <&$test_r`"
   return "$summary_code"
 }
 
@@ -63,7 +63,7 @@ bail_if_fail() { # 1=name 2=code 3=output
   [ "$2" -eq 0 ] || {
     echo "Bail out! $1 returned $2"
     [ -z "$3" ] || printf '%s\n' "$3" | sed 's/^/# /'
-    exit "$2"
+    exit 1
   }
 }
 
