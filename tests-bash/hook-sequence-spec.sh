@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "$0")" || exit 1
 
 test_before_all_fail_spec() {

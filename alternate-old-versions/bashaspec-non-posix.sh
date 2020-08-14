@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 # Non-POSIX version with equal features but only supports bash unit tests.
 

@@ -25,7 +25,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
 * Copy bashaspec.sh to your repository
 * `myscript-spec.sh`
   ```bash
-  #!/bin/bash
+  #!/usr/bin/env bash
   test_concat() {
     a='1'
     b='2'
@@ -78,7 +78,7 @@ So I wrote my own. This is a middle ground for some convenience while remaining 
   When using other shells, if your test script changes directory (`cd`) outside of a test function, bashaspec needs to be told the path of the test file by setting the `_bashaspec_test_file` variable.  
   For example:
   ```bash
-  #!/bin/dash
+  #!/usr/bin/env dash
   cd "$(dirname "$0")" || exit 1
   _bashaspec_test_file="$(pwd)/$(basename "$0")"
   test_foo() { : ... ; }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 # Non-TAP version with simpler but less featureful implementation.
 

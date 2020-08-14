@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 
 # Verbose? true: TAP 12 output; false: dot per test; default false
@@ -86,7 +86,7 @@ format() {
   fi
 }
 
-# This script is #!/bin/bash, so if the shell is not bash then it must have been sourced! If the shell is bash, check.
+# This script is #!/usr/bin/env bash, so if the shell is not bash then it must have been sourced! If the shell is bash, check.
 sourced=0; [ -n "${BASH_VERSION:-}" ] && ! (return 0 2>/dev/null) || sourced=1
 if [ "$sourced" -eq 0 ]; then
   run_test_files
