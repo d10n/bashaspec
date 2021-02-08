@@ -40,4 +40,15 @@ test_false_assert_captures_stdout2() {
   echo bar
   false
 }
+
+test_compare_strings_with_diff() {
+  # For automatically showing the difference between
+  # actual and expected output, use diff or cmp.
+  # Use printf %s instead of echo to ensure that the
+  # exact variable contents get compared.
+  expected='passed test'
+  actual='failed test'
+  diff <(printf %s "$expected") <(printf %s "$actual") || return 1
+}
+
 . ../bashaspec.sh
