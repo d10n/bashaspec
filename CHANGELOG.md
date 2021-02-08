@@ -1,7 +1,13 @@
 # Changelog
 
 ## [Unreleased]
-* I'm running out of changes to make, so I plan to tag version 1.0 soon.
+
+## [1.0.0] - 2021-02-08
+### Changed
+* Documentation updates
+
+### Fixed
+* Report 0 test runs if 0 tests ran
 
 ## [2020-07-30]
 ### Changed
@@ -49,7 +55,8 @@
 ### Added
 * bashaspec
 
-[Unreleased]: https://github.com/d10n/bashaspec/compare/a2390b481e9dbcc9048f72db20d41963e8417ab5...HEAD
+[Unreleased]: https://github.com/d10n/bashaspec/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/d10n/bashaspec/compare/a2390b481e9dbcc9048f72db20d41963e8417ab5...v1.0.0
 [2020-07-30]: https://github.com/d10n/bashaspec/compare/ab844f2071ff0f838d0bcadaa22be36b3773d3c3...a2390b481e9dbcc9048f72db20d41963e8417ab5
 [2020-07-27]: https://github.com/d10n/bashaspec/compare/41eebcd853d6f14bff1e7594559232d7be875f40...ab844f2071ff0f838d0bcadaa22be36b3773d3c3
 [2020-07-26]: https://github.com/d10n/bashaspec/compare/68929d8b370e0372c2f5111787272aa87d934989...41eebcd853d6f14bff1e7594559232d7be875f40
