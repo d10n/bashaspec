@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-. ../bashaspec.sh
 
 # Writing functions with :; at the end of
 # the opening line enables empty functions.
@@ -41,3 +40,4 @@ test_false_assert_captures_stdout2() {
   echo bar
   false
 }
+. ../bashaspec.sh

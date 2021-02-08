@@ -1,6 +1,5 @@
 #!/bin/bash
 cd "$(dirname "$0")" || exit 1
-. ../bashaspec.sh
 test_concat() {
   a='1'
   b='2'
@@ -31,3 +30,4 @@ test_a_success() {
   future=$((now+1))
   (( now < future )) || return 1
 }
+. ../bashaspec.sh
