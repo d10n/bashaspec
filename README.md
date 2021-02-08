@@ -9,6 +9,8 @@ There are tons of alternatives, but I was not satisfied with the ones I looked a
 
 So I wrote my own. This is a middle ground for some convenience while remaining small enough to read at a glance and to vendor the whole file as needed.
 
+Only the test code needs to be written in bash or POSIX-compatible shell command language; the tests can test the input and output of any generic program or script.
+
 ## Features
 
 * Easy usage: just source the library after defining `test_*` functions, and execute your file
