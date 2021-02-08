@@ -34,40 +34,44 @@ Only the test code needs to be written in bash or POSIX-compatible shell command
     echo 'concatenating...'
     c="$a$b"
     [[ "$c" = "12" ]] || return
-    [[ "$c" != "ab" ]] || return
-    [[ "$c" -ne 3 ]] || return
   }
   test_add() {
     a='1'
     b='2'
     echo 'adding...'
-    c=$(( a+b ))
+    c=$(( a + b ))
     [[ "$c" -eq 3 ]] || return
-    [[ "$c" != "12" ]] || return
-    [[ "$c" != "ab" ]] || return
   }
   test_an_error() {
     echo 'returning nonzero is an error'
     echo 'use return codes to identify failed assertions'
-    [[ 'a' = 'a' ]] || return
-    [[ 'a' = 'b' ]] || return # test failure!
-    [[ 'a' = 'c' ]] && return
+    [[ 'a' = 'a' ]] || return 1
+    [[ 'a' = 'b' ]] || return 2 # test failure!
+    [[ 'a' = 'c' ]] || return 3
   }
-  test_a_success() {
+  test_success() {
     now="$(date +%s)"
-    future=$((now+1))
+    future=$(( now + 1 ))
     (( now < future )) || return
+  }
+  test_external_command() {
+    expected_out="857691210 7"
+    expected_exit=0
+    cksum_out="$(cksum <<<"foobar")"
+    cksum_exit=$?
+    diff <(printf %s "$expected_out") <(printf %s "$cksum_out") || return 1
+    [[ "$expected_exit" -eq "$cksum_exit" ]] || return "$cksum_exit"
   }
   . ./bashaspec.sh
   ```
 * `./myscript-spec.sh` to run just the tests in `myscript-spec.sh` or `./bashaspec.sh` to run all test files in the current directory, recursively
   ```bash
   [user@host ~]$ ./myscript-spec.sh
-  Running 4 tests
-  ..x.
-  3 of 4 tests passed
-  Failures:
-    test_an_error returned 1
+  Running 5 tests
+  .x...
+  4 of 5 tests passed
+  1 failures:
+    test_an_error returned 2
       returning nonzero is an error
       use return codes to identify failed assertions
   ```
