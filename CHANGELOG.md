@@ -6,10 +6,10 @@
 
 ## [1.0.0] - 2021-02-08
 ### Changed
-* Documentation updates
+* Documentation updates.
 
 ### Fixed
-* Report 0 test runs if 0 tests ran
+* Report 0 test runs if 0 tests ran.
 
 ## [2020-07-30]
 ### Changed
