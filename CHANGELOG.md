@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+No unreleased changes yet
+
+## [1.1.1] - 2021-02-15
 ### Fixed
 * The MIT license notice at the top of bashaspec.sh now explicitly only covers the file itself. This should make it clearer that the license does not make any claim about other files in repositories that bashaspec is copied into.
 
@@ -61,7 +64,8 @@
 ### Added
 * bashaspec
 
-[Unreleased]: https://github.com/d10n/bashaspec/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/d10n/bashaspec/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/d10n/bashaspec/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/d10n/bashaspec/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/d10n/bashaspec/compare/a2390b481e9dbcc9048f72db20d41963e8417ab5...v1.0.0
 [2020-07-30]: https://github.com/d10n/bashaspec/compare/ab844f2071ff0f838d0bcadaa22be36b3773d3c3...a2390b481e9dbcc9048f72db20d41963e8417ab5
