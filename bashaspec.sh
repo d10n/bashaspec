@@ -1,5 +1,5 @@
 #!/bin/bash
-# bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
+# bashaspec - This file is MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 
 # Verbose? true: TAP 12 output; false: dot per test; default false
 [ "${1:-}" = -v ] || [ "${1:-}" = --verbose ] && verbose=1 || verbose=0

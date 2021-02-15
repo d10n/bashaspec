@@ -1,5 +1,5 @@
 #!/bin/bash
-# bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
+# bashaspec - This file is MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 # Ancient version - all features with extra support for pre-POSIX heirloom bourne shell
 
 # Verbose? true: TAP 12 output; false: dot per test; default false

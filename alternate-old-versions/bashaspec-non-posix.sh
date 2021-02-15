@@ -1,5 +1,5 @@
 #!/bin/bash
-# bashaspec - MIT licensed. Copyright 2020 d10n. Feel free to copy around.
+# bashaspec - This file is MIT licensed. Copyright 2020 d10n. Feel free to copy around.
 # Non-POSIX version with equal features but only supports bash unit tests.
 
 # Verbose? true: TAP 12 output; false: dot per test; default false
