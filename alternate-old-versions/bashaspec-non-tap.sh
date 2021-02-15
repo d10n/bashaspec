@@ -41,7 +41,7 @@ run_fn() {
   [[ "${2:-}" = print ]] && print=1 || print=0
   if ((print && verbose)); then printf '%s ' "$1"; fi
   status=0
-  "$1" >&$test_w || status=$?
+  "$1" >&$test_w 2>&1 || status=$?
   IFS= read -r -d '' -u $test_r out || true
   if [[ $status -ne 0 ]]; then
     if ((print)); then ((verbose)) && echo 'fail' || printf x; fi

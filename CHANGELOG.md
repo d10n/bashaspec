@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+### Changed
+* Stderr is now captured and suppressed for passing tests, like stdout.
 
 ## [1.0.0] - 2021-02-08
 ### Changed

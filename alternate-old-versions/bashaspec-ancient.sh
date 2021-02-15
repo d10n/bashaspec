@@ -28,13 +28,13 @@ run_test_functions() {
   rm -- "$temp" # Remove the file. The file descriptors remain open and usable.
   echo "1..`printf '%s\n' "$fns" | grep -c '^test_'`"
   test_index=0; summary_code=0; hook_code=0
-  run_fn before_all >&$test_w || hook_code=$?; bail_if_fail before_all $hook_code "`cat <&$test_r`"
+  run_fn before_all >&$test_w 2>&1 || hook_code=$?; bail_if_fail before_all $hook_code "`cat <&$test_r`"
   while IFS= read -r fn; do
     [ -n "$fn" ] || continue
     status=; fail=; test_index="`expr ${test_index:-0} + 1`"
-    run_fn before_each >&$test_w || { status=$?; fail="$fn before_each"; }
-    [ -n "$fail" ] || run_fn "$fn" >&$test_w || { status=$?; fail="$fn"; } # Skip fn if before_each failed
-    run_fn after_each >&$test_w || { _s=$?; [ -n "$fail" ] || status="$_s"; fail="$fn after_each"; }
+    run_fn before_each >&$test_w 2>&1 || { status=$?; fail="$fn before_each"; }
+    [ -n "$fail" ] || run_fn "$fn" >&$test_w 2>&1 || { status=$?; fail="$fn"; } # Skip fn if before_each failed
+    run_fn after_each >&$test_w 2>&1 || { _s=$?; [ -n "$fail" ] || status="$_s"; fail="$fn after_each"; }
     out="`cat <&$test_r`"
     [ -z "$fail" ] || summary_code=1
     echo "${fail:+not }ok $test_index ${fail:-$fn}"
@@ -43,7 +43,7 @@ run_test_functions() {
   done <<FN_EOF
 `printf %s "$fns" | grep '^test_'`
 FN_EOF
-  run_fn after_all >&$test_w || hook_code=$?; bail_if_fail after_all "$hook_code" "`cat <&$test_r`"
+  run_fn after_all >&$test_w 2>&1 || hook_code=$?; bail_if_fail after_all "$hook_code" "`cat <&$test_r`"
   return "$summary_code"
 }
 
